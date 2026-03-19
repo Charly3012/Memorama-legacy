@@ -1,0 +1,17 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - ..:/workspaces/Memorama:cached
+    tty: true
+
+  db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: memorama
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"

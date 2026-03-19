@@ -1,0 +1,17 @@
+{
+    "name": "PHP 7 Legacy Project",
+    "dockerComposeFile": "compose.yaml",
+    "service": "app",
+    "workspaceFolder": "/workspaces/Memorama",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "xdebug.php-debug",
+                "bmewburn.vscode-intelephense-client",
+                "devsense.phptools-vscode"
+            ]
+        }
+    },
+    "remoteUser": "root",
+    "forwardPorts": [8000, 3306]
+}
