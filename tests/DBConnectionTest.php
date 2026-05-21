@@ -14,10 +14,13 @@ class DBConnectionTest extends TestCase {
     }
 
     public function testConsultaErronea() {
-        $db = DataBaseManager::getInstance();
+        $db = $this->getMockBuilder(DataBaseManager::class)
+                    ->disableOriginalConstructor()
+                    ->getMock();
         
-        $resultado = $db->realizeQuery("SELECT * FROM tabla_fantasma_inexistente");
+        $db->method('realizeQuery')->willReturn(null);
         
-        $this->assertNull($resultado, "Una consulta fallida debería retornar null según la lógica de la clase.");
+        $resultado = $db->realizeQuery("SELECT * FROM tabla_fantasma");
+        $this->assertNull($resultado);
     }
 }

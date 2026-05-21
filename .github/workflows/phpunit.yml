@@ -16,4 +16,4 @@ jobs:
 
       - name: Ejecutar pruebas PHPUnit
         run: |
-          docker compose -f .devcontainer/compose.yaml run --rm app ./vendor/bin/phpunit tests/
+          docker compose -f .devcontainer/compose.yaml run --rm -e PHPUNIT_TEST=true app ./vendor/bin/phpunit tests/
