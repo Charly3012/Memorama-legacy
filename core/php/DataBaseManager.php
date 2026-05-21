@@ -6,9 +6,15 @@
  * Date: 07/02/2016
  * Time: 07:55 PM
  */
+<<<<<<< HEAD
 define('SERVER', 'localhost');
 define('USERNAME', 'root');
 define('PASSWORD', '');
+=======
+define('SERVER', 'db');
+define('USERNAME', 'root');
+define('PASSWORD', 'root');
+>>>>>>> origin/main
 define('DB', 'memorama');
 
 class DataBaseManager {

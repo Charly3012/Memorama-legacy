@@ -8,11 +8,21 @@
  */
 include "DataBaseManager.php";
 require_once("Session.php");
+<<<<<<< HEAD
+=======
+require_once("interfaces/DatabaseInterface.php");
+require_once("interfaces/SessionInterface.php");
+require_once("adapters/DatabaseAdapter.php");
+require_once("adapters/SessionAdapter.php");
+require_once("services/AuthService.php");
+
+>>>>>>> origin/main
 
 $username = $_POST["username"];
 $password = $_POST["password"];
 
 
+<<<<<<< HEAD
 $database = DataBaseManager::getInstance();
 $query = "Select * FROM  usuario WHERE nombre = '$username' AND clave = '$password'";
 $result = $database->realizeQuery($query);
@@ -38,3 +48,11 @@ function verifyLogin($result, $username) {
     }
 }
 
+=======
+$db = new DatabaseAdapter();
+$session = new SessionAdapter();
+$authService = new AuthService($db, $session);
+
+$response = $authService->login($username, $password);
+echo json_encode($response);
+>>>>>>> origin/main
