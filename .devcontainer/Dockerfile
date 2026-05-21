@@ -1,7 +1,7 @@
 FROM php:7.4-cli
 
-# Instalamos las extensiones que tu proyecto legacy necesita
 RUN apt-get update && apt-get install -y \
+    git \
     libpng-dev \
     libjpeg-dev \
     libfreetype6-dev \
@@ -9,7 +9,8 @@ RUN apt-get update && apt-get install -y \
     unzip \
     && docker-php-ext-install mysqli pdo pdo_mysql bcmath gd
 
-# Usamos la configuración de desarrollo para ver errores
+COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
 WORKDIR /workspaces/Memorama

@@ -1,0 +1,19 @@
+name: CI PHP Legacy
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout código
+        uses: actions/checkout@v3
+
+      - name: Instalar dependencias
+        run: |
+          docker compose -f .devcontainer/compose.yaml run --rm app composer install --prefer-dist --no-progress
+
+      - name: Ejecutar pruebas PHPUnit
+        run: |
+          docker compose -f .devcontainer/compose.yaml run --rm app ./vendor/bin/phpunit tests/
