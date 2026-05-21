@@ -6,15 +6,10 @@
  * Date: 07/02/2016
  * Time: 07:55 PM
  */
-<<<<<<< HEAD
+
 define('SERVER', 'localhost');
 define('USERNAME', 'root');
 define('PASSWORD', '');
-=======
-define('SERVER', 'db');
-define('USERNAME', 'root');
-define('PASSWORD', 'root');
->>>>>>> origin/main
 define('DB', 'memorama');
 
 class DataBaseManager {
@@ -22,25 +17,26 @@ class DataBaseManager {
     private $mysqli;
     private static $_instance = null;
 
-    /**
-     * DataBaseManager constructor.
-     * @param $mysqli
-     */
     private function __construct() {
-        $this->mysqli = new mysqli(SERVER, USERNAME, PASSWORD, DB);
+
+        @$this->mysqli = new mysqli(SERVER, USERNAME, PASSWORD, DB);
+
         if ($this->mysqli->connect_errno) {
-            echo "Fallo al conectar a MySQL: (" . $this->mysqli->connect_errno . ") " . $this->mysqli->connect_error;
+            error_log("Fallo al conectar a MySQL: (" . $this->mysqli->connect_errno . ") " . $this->mysqli->connect_error);
+            
+            die("<h1>Servicio temporalmente no disponible</h1><p>Estamos experimentando problemas técnicos. Por favor, intente más tarde.</p>");
         }
 
         if (!$this->mysqli->set_charset('utf8')) {
-            printf("Error cargando el conjunto de caracteres utf8: %s\n", $this->mysqli->error);
-            exit;
+            error_log("Error cargando el conjunto de caracteres utf8: " . $this->mysqli->error);
+            die("<h1>Error de configuración del sistema</h1>");
         }
     }
 
     public function __destruct() {
-        self::$_instance = null;
-        $this->mysqli = null;
+        if ($this->mysqli) {
+            $this->mysqli->close();
+        }
     }
 
     public static function getInstance() {
@@ -60,15 +56,17 @@ class DataBaseManager {
 
     public function realizeQuery($query) {
         if ($result = $this->mysqli->query($query)) {
-            $result = $result->fetch_all(MYSQLI_ASSOC);
-            return $result;
+            $data = $result->fetch_all(MYSQLI_ASSOC);
+            $result->free(); 
+            return $data;
         } else {
             return null;
         }
     }
 
     public function close() {
-        $this->mysqli->close();
+        if ($this->mysqli) {
+            $this->mysqli->close();
+        }
     }
-
 }
